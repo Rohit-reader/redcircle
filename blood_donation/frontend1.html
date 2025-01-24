@@ -1,0 +1,238 @@
+<?php
+// Check which page to load
+$page = isset($_GET['page']) ? $_GET['page'] : 'home';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Circle | Blood Donation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #d32f2f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+        }
+
+        header nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-content, .about-content, .form-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .form-content form {
+            display: inline-block;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-content input, .form-content select, .form-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .form-content button {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .form-content button:hover {
+            background-color: #c62828;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .form-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to Red Circle</h1>
+    <nav>
+        <ul>
+            <li><a href="?page=home">Home</a></li>
+            <li><a href="?page=about">About</a></li>
+            <li><a href="http://localhost/blood_donation/submit_form.php"><button>Donate blood</button></a></li>
+            <li><a href="http://localhost/blood_donation/view_donors.php?blood_group=&city="><button>Recieve blood</button></a></li>
+        </ul>
+    </nav>
+</header>
+
+<?php if ($page == 'home'): ?>
+    <section class="main-content">
+        <h2>Why Donate Blood?</h2>
+        <p>Donating blood saves lives. Your blood can help others in need!</p>
+        <p>Blood donation is a noble act that saves lives. Every donation can help treat patients in need of surgeries, cancer treatments, trauma care, and more.</p>
+    </section>
+<?php elseif ($page == 'about'): ?>
+    <section class="about-content">
+        <h2>What is Red Circle?</h2>
+        <p>Red Circle is an online platform dedicated to connecting blood donors with people in need of blood transfusions. Our goal is to save lives by facilitating easy blood donation and request processes.</p>
+        <h3>Benefits of Donating Blood:</h3>
+        <ul type = "none">
+            <li>It saves lives.</li>
+            <li>Reduces iron levels and helps maintain good heart health.</li>
+            <li>Improves the health of the donor by stimulating new blood cell production.</li>
+            <li>Each donation can save up to three lives.</li>
+        </ul>
+        <h2>Our Mission</h2>
+        <p>Our mission is to create a bridge between donors and those in need of blood, ensuring that no one has to suffer due to a lack of blood resources.</p>
+    </section>
+<?php endif; ?>
+
+<!-- Donor Registration Form -->
+<section class="form-content form-section" id="donor-form">
+    <h2>Register as a Donor</h2>
+    <form method="POST" action="submit_donor.php">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="text" name="contact" placeholder="Your Contact Number" required>
+        <select name="blood_group" required>
+            <option value="">Select Blood Group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+        </select>
+        <select name="place" required>
+            <option value="">Select Your Location</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Coimbatore">Coimbatore</option>
+            <option value="Madurai">Madurai</option>
+            <option value="Trichy">Trichy</option>
+            <option value="Salem">Salem</option>
+            <option value="Erode">Erode</option>
+            <option value="Tirunelveli">Tirunelveli</option>
+            <option value="Vellore">Vellore</option>
+            <option value="Dindigul">Dindigul</option>
+            <option value="Tirupur">Tirupur</option>
+            <option value="Dharmapuri">Dharmapuri</option>
+            <option value="Kachipuram">Kachipuram</option>
+            <option value="Chengalpattu">Chengalpattu</option>
+            <option value="Tiruvallur">Tiruvallur</option>
+
+        </select>
+        <div>
+            <label>Do you have any diseases?</label>
+            <input type="radio" name="disease" value="No" required> No
+            <input type="radio" name="disease" value="Yes" required> Yes
+        </div>
+        <input type="number" name="units" placeholder="How many units can you donate?" required>
+        <button type="submit">Register as Donor</button>
+    </form>
+</section>
+
+<!-- Receiver Request Form -->
+<section class="form-content form-section" id="receiver-form">
+    <h2>Get Blood</h2>
+    <form method="POST" action="submit_receiver.php">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="text" name="contact" placeholder="Your Contact Number" required>
+        <select name="blood_group" required>
+            <option value="">Select Blood Group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+        </select>
+        <select name="place" required>
+            <option value="">Select Your Location</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Coimbatore">Coimbatore</option>
+            <option value="Madurai">Madurai</option>
+            <option value="Trichy">Trichy</option>
+            <option value="Salem">Salem</option>
+            <option value="Erode">Erode</option>
+            <option value="Tirunelveli">Tirunelveli</option>
+            <option value="Vellore">Vellore</option>
+            <option value="Dindigul">Dindigul</option>
+            <option value="Tirupur">Tirupur</option>
+            <option value="Dharmapuri">Dharmapuri</option>
+            <option value="Kachipuram">Kachipuram</option>
+            <option value="Chengalpattu">Chengalpattu</option>
+            <option value="Tiruvallur">Tiruvallur</option>
+
+        </select>
+        <input type="number" name="units" placeholder="How many units do you need?" required>
+        <button type="submit">Request Blood</button>
+    </form>
+</section>
+
+<!--footer>
+    <p>&copy; 2025 Red Circle. All rights reserved.</p>
+</footer-->
+
+<script>
+    // Show the form based on the button clicked
+    function showForm(formType) {
+        // Hide both forms initially
+        document.getElementById('donor-form').style.display = 'none';
+        document.getElementById('receiver-form').style.display = 'none';
+        
+        // Show the selected form
+        if (formType == 'donor') {
+            document.getElementById('donor-form').style.display = 'block';
+        } else if (formType == 'receiver') {
+            document.getElementById('receiver-form').style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
